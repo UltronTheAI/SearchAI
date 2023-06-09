@@ -16,6 +16,8 @@ http
 Install my-project with npm
 
 ```bash
+git clone https://github.com/UltronTheAI/SearchAI.git
+cd SearchAI
 npm i
 npm start
 ```
