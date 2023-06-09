@@ -7,7 +7,7 @@ Search content not ads!
 ## Demo
 
 ```
-http
+https://searchai-7lx6.onrender.com
 ```
 
 
