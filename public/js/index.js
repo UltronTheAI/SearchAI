@@ -1,5 +1,7 @@
 // Code licensed under the MIT
 
+var startIndex;
+
 const component = (id) => {
   document.getElementById("loading").style.display = "none";
   document.getElementById("search").style.display = "none";
@@ -12,34 +14,45 @@ const load = () => {
   document.getElementById("search").style.display = "flex";
   document.getElementById("home").style.display = "none";
 
-  document.getElementById('simple-search').addEventListener('keypress', (e) => {
-    if (e.key == 'Enter') {
-      e.preventDefault()
-      search()
+  document.getElementById("simple-search").addEventListener("keypress", (e) => {
+    if (e.key == "Enter") {
+      e.preventDefault();
+      search();
     }
-  })
+  });
 
-  document.getElementById('sampleSearch').addEventListener('keypress', (e) => {
-    if (e.key == 'Enter') {
-      e.preventDefault()
-      search(document.getElementById('sampleSearch').value)
+  document.getElementById("sampleSearch").addEventListener("keypress", (e) => {
+    if (e.key == "Enter") {
+      e.preventDefault();
+      search(document.getElementById("sampleSearch").value);
     }
-  })
-
+  });
 };
 
 const start = () => {
   const url = location.href.split("/").pop().split("-?-")[0];
+  startIndex = 0;
+
   if ((url == "index.html") | (url == "")) {
     component("home");
   } else {
+    setTimeout(() => {
+      if (startIndex != 1) {
+        location.reload();
+      } else {
+      }
+    }, 10000);
+
     component("loading");
     // component("search");
     var query = decodeURI(location.href.split("/").pop().split("-?-")[1]);
-    fetch("/api.search?" + query.replaceAll(' ', '_'))
+    fetch("/api.search?" + query.replaceAll(" ", "_"))
       .then((data) => data.json())
       .then((out) => {
-        out = JSON.parse(out);
+        try {
+          out = JSON.parse(out);
+          startIndex = 1;
+        } catch (e) {}
         document.getElementById("title").innerHTML = out.title;
         document.getElementById("info").innerHTML = out.text;
         document.getElementById("link").href = out.link;
@@ -76,19 +89,23 @@ const start = () => {
           console.log(element);
 
           const elementComponent = document.createElement("a");
-          elementComponent.setAttribute('class', 'p-2 rounded bg-white m-2 font-bold text-slate-900 flex')
-          elementComponent.setAttribute('href', `https://google.com/search?q=${element}`)
-          elementComponent.innerText = element
+          elementComponent.setAttribute(
+            "class",
+            "p-2 rounded bg-white m-2 font-bold text-slate-900 flex"
+          );
+          elementComponent.setAttribute(
+            "href",
+            `https://google.com/search?q=${element}`
+          );
+          elementComponent.innerText = element;
 
-          const imageComponent = document.createElement('img')
-          imageComponent.setAttribute('class', 'w-6 mr-2')
-          imageComponent.setAttribute('src', '/src/search-svgrepo-com.svg')
+          const imageComponent = document.createElement("img");
+          imageComponent.setAttribute("class", "w-6 mr-2");
+          imageComponent.setAttribute("src", "/src/search-svgrepo-com.svg");
 
-          elementComponent.appendChild(imageComponent)
-          
-          document.getElementById(
-            "rel-ser"
-          ).appendChild(elementComponent)
+          elementComponent.appendChild(imageComponent);
+
+          document.getElementById("rel-ser").appendChild(elementComponent);
         }
         // }
 
