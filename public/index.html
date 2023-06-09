@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="./css/index.css" />
+    <script src="./js/index.js"></script>
+    <script src="./js/tailwindcss.js"></script>
+    <link rel="shortcut icon" href="./src/logo.png" type="image/x-icon" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SearchAI</title>
+  </head>
+  <body onload="start()">
+    <div class="w-full h-full bg-slate-800">
+      <div class="menu w-full flex items-center p-2">
+        <img src="./src/logo.png" class="logo mt-6 p-2" />
+        <a
+          class="mt-6 font-bold text-2xl text-white hover:opacity-80 active:opacity-40"
+          href="/"
+        >
+          <span class="text-teal-400">S</span>earch<span class="text-red-400"
+            >AI</span
+          >
+        </a>
+      </div>
+      <div
+        class="main w-full flex items-center justify-center"
+        id="loading"
+        style="display: none"
+      >
+        <div
+          class="w-5/6 h-5/6 bg-teal-400 rounded flex items-center justify-center"
+        >
+          <svg class="bike" viewBox="0 0 48 30" width="48px" height="30px">
+            <g
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1"
+            >
+              <g transform="translate(9.5,19)">
+                <circle
+                  class="bike__tire"
+                  r="9"
+                  stroke-dasharray="56.549 56.549"
+                />
+                <g
+                  class="bike__spokes-spin"
+                  stroke-dasharray="31.416 31.416"
+                  stroke-dashoffset="-23.562"
+                >
+                  <circle class="bike__spokes" r="5" />
+                  <circle
+                    class="bike__spokes"
+                    r="5"
+                    transform="rotate(180,0,0)"
+                  />
+                </g>
+              </g>
+              <g transform="translate(24,19)">
+                <g
+                  class="bike__pedals-spin"
+                  stroke-dasharray="25.133 25.133"
+                  stroke-dashoffset="-21.991"
+                  transform="rotate(67.5,0,0)"
+                >
+                  <circle class="bike__pedals" r="4" />
+                  <circle
+                    class="bike__pedals"
+                    r="4"
+                    transform="rotate(180,0,0)"
+                  />
+                </g>
+              </g>
+              <g transform="translate(38.5,19)">
+                <circle
+                  class="bike__tire"
+                  r="9"
+                  stroke-dasharray="56.549 56.549"
+                />
+                <g
+                  class="bike__spokes-spin"
+                  stroke-dasharray="31.416 31.416"
+                  stroke-dashoffset="-23.562"
+                >
+                  <circle class="bike__spokes" r="5" />
+                  <circle
+                    class="bike__spokes"
+                    r="5"
+                    transform="rotate(180,0,0)"
+                  />
+                </g>
+              </g>
+              <polyline
+                class="bike__seat"
+                points="14 3,18 3"
+                stroke-dasharray="5 5"
+              />
+              <polyline
+                class="bike__body"
+                points="16 3,24 19,9.5 19,18 8,34 7,24 19"
+                stroke-dasharray="79 79"
+              />
+              <path
+                class="bike__handlebars"
+                d="m30,2h6s1,0,1,1-1,1-1,1"
+                stroke-dasharray="10 10"
+              />
+              <polyline
+                class="bike__front"
+                points="32.5 2,38.5 19"
+                stroke-dasharray="19 19"
+              />
+            </g>
+          </svg>
+        </div>
+      </div>
+      <div
+        class="main w-full flex items-center justify-center"
+        style="display: none"
+        id="search"
+      >
+        <div class="p-2 pb-6 bg-teal-400 rounded w-5/6 h-5/6 backdrop-blur-3xl">
+          <div class="menu w-full p-2 flex">
+            <div class="w-4 h-4 bg-teal-300 rounded mr-2"></div>
+            <div class="w-4 h-4 bg-teal-300 rounded mr-2"></div>
+            <div class="w-4 h-4 bg-teal-300 rounded mr-2"></div>
+            <div
+              class="p-2 bg-teal-300 rounded mr-2 text-slate-900 font-bold h-6 rounded flex items-center justify-center hover:opacity-80 active:opacity-40"
+              onclick="location.href='/'"
+            >
+              Back
+            </div>
+            <div class="flex">
+            <!-- <form class="flex items-center"> -->
+            <label for="simple-search" class="sr-only">Search</label>
+            <div class="relative w-full">
+              <div class="absolute inset-y-4 left-0 flex items-center pl-3 pointer-events-none">
+                <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <input type="text" id="sampleSearch" class="search bg-gray-50 border border-blue-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search" required="">
+            </div>
+            <button onclick="search(document.getElementById('sampleSearch').value)" type="submit" class="p-3.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 flex items-center justify-center">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
+              <span class="sr-only">Search</span>
+            </button>
+            <!-- </form> -->
+          </div>
+          </div>
+          <div class="con w-full p-4 overflow-y-auto mt-2" style="height: 96%">
+            <div class="media flex pb-4">
+              <a class="inline-block mr-4">
+                <img class="max-w-none w-12 h-12" src="./src/logo.png" />
+              </a>
+              <div class="media-body">
+                <div>
+                  <a class="inline-block text-base font-bold mr-2">SearchAI</a>
+                </div>
+                <h1 id="title" class="font-bold text-slate-800 text-xl">Title</h1>
+                <p id="info">Info</p>
+                <div class="py-4">
+                  <div class="mt-2 flex items-center">
+                    <a
+                      class="inline-flex items-center py-2 mr-3"
+                      href="/"
+                      id="link"
+                    >
+                      <span class="mr-2">
+                        <img
+                          src="./src/link.png"
+                          style="width: 50px"
+                          class="p-2 rounded bg-teal-300"
+                        />
+                      </span>
+                      <span class="text-base font-bold">Link</span>
+                    </a>
+                  </div>
+                  <div class="mt-2 flex items-center" id="img-p" style="display: none;">
+                    <a class="inline-flex items-center py-2 mr-3">
+                      <span class="mr-2">
+                        <img
+                          src="./src/images-svgrepo-com.svg"
+                          style="width: 50px"
+                          class="p-2 rounded bg-teal-300"
+                        />
+                      </span>
+                      <span class="text-base font-bold">Image</span>
+                    </a>
+                  </div>
+                  <a class="flex">
+                    <img class="max-w-full rounded-lg mt-2" id="img" src="" />
+                  </a>
+                </div>
+                <div class="py-4" id="vid-p" style="display: none;">
+                  <div class="mt-2 flex items-center">
+                    <a class="inline-flex items-center py-2 mr-3">
+                      <span class="mr-2">
+                        <img
+                          src="./src/video-svgrepo-com.svg"
+                          style="width: 50px"
+                          class="p-2 rounded bg-teal-300"
+                        />
+                      </span>
+                      <span class="text-base font-bold">Video</span>
+                    </a>
+                  </div>
+                  <!-- <a class="flex">
+                    <iframe id="vid" class="max-w-full rounded-lg mt-2" src=""></iframe>
+                  </a> -->
+                </div>
+                <div class="mt-2 flex items-center">
+                  <a class="inline-flex items-center py-2 mr-3">
+                    <span class="mr-2">
+                      <img
+                        src="./src/search-svgrepo-com.svg"
+                        style="width: 50px"
+                        class="p-2 rounded"
+                      />
+                    </span>
+                    <span class="text-base font-bold"
+                      >Search related topics</span
+                    >
+                  </a>
+                </div>
+                <div id="rel-ser">
+                  <!-- <a class="p-2 rounded bg-white m-2 font-bold text-slate-900 flex" href="">
+                    <img src="./src/search-svgrepo-com.svg" class="w-6 mr-2">
+                    Search</a>
+                    <a class="p-2 rounded bg-white m-2 font-bold text-slate-900 flex" href="">
+                    <img src="./src/search-svgrepo-com.svg" class="w-6 mr-2">
+                    Search</a> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="main w-full flex items-center justify-center"
+        style="display: none"
+        id="home"
+      >
+        <div>
+          <div class="flex items-center justify-center mb-2">
+            <h1
+              class="mt-6 font-bold text-2xl text-white"
+              style="font-size: 200%"
+            >
+              <span class="text-teal-400">S</span>earch<span
+                class="text-red-400"
+                >AI</span
+              >
+            </h1>
+          </div>
+          <div class="flex p-2">
+            <!-- <form class="flex items-center"> -->
+            <label for="simple-search" class="sr-only">Search</label>
+            <div class="relative w-full">
+              <div
+                class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </div>
+              <input
+                type="text"
+                id="simple-search"
+                class="search bg-gray-50 border border-blue-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Search"
+                required
+              />
+            </div>
+            <button
+              onclick="search()"
+              type="submit"
+              class="p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                ></path>
+              </svg>
+              <span class="sr-only">Search</span>
+            </button>
+            <!-- </form> -->
+          </div>
+        </div>
+      </div>
+      <div class="menu w-full flex items-center p-2">
+        <img src="./src/github.png" class="logo p-2" />
+        <h1
+          class="font-bold text-2xl text-white hover:opacity-80 active:opacity-40"
+        >
+          <span class="text-teal-400">G</span>it<span class="text-red-400"
+            >Hub</span
+          >
+        </h1>
+        <img
+          src="./src/link.png"
+          class="logo p-2 hover:opacity-80 active:opacity-40"
+        />
+      </div>
+    </div>
+  </body>
+</html>
